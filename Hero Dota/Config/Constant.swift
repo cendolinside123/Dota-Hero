@@ -32,4 +32,5 @@ enum Sort: String {
     case B_HP = "Base Health"
     case B_MP = "Base Mana"
     case B_Spd = "Base Speed"
+    case B_Deff = "Baee Deff"
 }

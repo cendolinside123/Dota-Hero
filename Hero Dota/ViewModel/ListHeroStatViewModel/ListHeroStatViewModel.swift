@@ -39,6 +39,8 @@ extension ListHeroStatViewModel {
             return data.sorted(by: { $0.base_mana < $1.base_mana })
         case .B_Spd:
             return data.sorted(by: { $0.move_speed < $1.move_speed })
+        case .B_Deff:
+            return data.sorted(by: { $0.base_armor < $1.base_armor })
         }
     }
     
@@ -76,6 +78,8 @@ extension ListHeroStatViewModel: ListHeroStatVMGuideline {
         case .B_Spd:
             self.result = doSorting(data: self.result, base: .B_Spd)
             
+        case .B_Deff:
+            self.result = doSorting(data: self.result, base: .B_Deff)
         }
         
         self.sortHero?(result)
