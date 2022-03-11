@@ -73,7 +73,8 @@ class HeroCollectionViewCell: UICollectionViewCell {
     private func addImage() {
         imageHero.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1)
         imageHero.image = #imageLiteral(resourceName: "loading")
-        imageHero.contentMode = .scaleAspectFit
+        imageHero.contentMode = .scaleAspectFill
+        imageHero.clipsToBounds = true
         contentView.addSubview(imageHero)
     }
     
