@@ -36,7 +36,7 @@ class SortTableViewCell: UITableViewCell {
     private func setup() {
         self.backgroundColor = .white
         self.clipsToBounds = true
-        self.layer.cornerRadius = 5
+//        self.layer.cornerRadius = 5
         setupLayout()
         addConstraints()
     }
@@ -75,5 +75,9 @@ class SortTableViewCell: UITableViewCell {
 extension SortTableViewCell {
     func setValue(text sort: Sort) {
         lblTitle.text = sort.rawValue
+    }
+    
+    func setValue(plain text: String) {
+        lblTitle.text = text
     }
 }
