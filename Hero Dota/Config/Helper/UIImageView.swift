@@ -14,7 +14,7 @@ extension UIImageView {
     func setImage(url: String, times: Int = 3) {
         
         image = #imageLiteral(resourceName: "loading")
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
         guard let getURL = URL(string: url) else {
             return
         }
@@ -49,18 +49,18 @@ extension UIImageView {
                             task?.cancel()
                             if let cacheImage = value.image{
                                 self?.image = cacheImage
-                                self?.contentMode = .scaleAspectFit
+                                self?.contentMode = .scaleAspectFill
                             }
                             else{
                                 self?.image = #imageLiteral(resourceName: "loading")
-                                self?.contentMode = .scaleAspectFit
+                                self?.contentMode = .scaleAspectFill
                             }
                             
                         }
                         else{
                             print("cache local type \(value.cacheType) url: \(url)")
                             self?.image = #imageLiteral(resourceName: "loading")
-                            self?.contentMode = .scaleAspectFit
+                            self?.contentMode = .scaleAspectFill
                         }
                     }
                 case .failure(let error):
@@ -68,7 +68,7 @@ extension UIImageView {
                     if times > 0 {
                         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
                             self?.image = #imageLiteral(resourceName: "loading")
-                            self?.contentMode = .scaleAspectFit
+                            self?.contentMode = .scaleAspectFill
                         })
                         self?.setImage(url: url, times: times - 1)
                     } else {
@@ -83,7 +83,7 @@ extension UIImageView {
     func setBigImage(url: String, times: Int = 3) {
         
         image = #imageLiteral(resourceName: "loading")
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
         guard let getURL = URL(string: url) else {
             return
         }
