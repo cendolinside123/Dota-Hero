@@ -11,7 +11,7 @@ class DetailViewController: UIViewController {
 
     private let tblInfoDetail: UITableView = {
         let tabel = UITableView()
-        tabel.backgroundColor = .white
+        tabel.backgroundColor = .gray
         tabel.allowsSelection = false
         tabel.tableFooterView = UIView()
         return tabel
@@ -52,7 +52,7 @@ class DetailViewController: UIViewController {
         
         // MARK: tblInfoDetail constraints
         tblInfoDetail.translatesAutoresizingMaskIntoConstraints = false
-        let hTblMenu = "H:|-[tblInfoDetail]-|"
+        let hTblMenu = "H:|-1-[tblInfoDetail]-1-|"
         let vTblMenu = "V:|-0-[tblInfoDetail]-0-|"
         constraints += NSLayoutConstraint.constraints(withVisualFormat: hTblMenu, options: .alignAllTop, metrics: metrix, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: vTblMenu, options: .alignAllLeading, metrics: metrix, views: views)
@@ -69,6 +69,10 @@ class DetailViewController: UIViewController {
         tblInfoDetail.delegate = self
         tblInfoDetail.dataSource = self
         tblInfoDetail.register(BicPictTableViewCell.self, forCellReuseIdentifier: "BigPicCell")
+        tblInfoDetail.register(HeroLabelTableViewCell.self, forCellReuseIdentifier: "HeroLabelCell")
+        tblInfoDetail.register(AttackTypeTableViewCell.self, forCellReuseIdentifier: "AttackTypeCell")
+        tblInfoDetail.register(HeroStatTableViewCell.self, forCellReuseIdentifier: "StatCell")
+        tblInfoDetail.register(SortTableViewCell.self, forCellReuseIdentifier: "HeroTypeCell")
     }
 
 }
@@ -94,6 +98,16 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         if section == 0 {
             return 1
+        } else if section == 1 {
+            return 1
+        } else if section == 2 {
+            return 1
+        } else if section == 3 {
+            return 4
+        } else if section == 4 {
+            return 1
+        } else if section == 5 {
+            return getHero?.roles.count ?? 0
         } else {
             return 0
         }
@@ -105,7 +119,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         
-        return 1
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -128,6 +142,98 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 return UITableViewCell()
             }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "HeroLabelCell", for: indexPath) as? HeroLabelTableViewCell else {
+                    return UITableViewCell()
+                }
+                if let checkHero = getHero {
+                    cell.setInfo(hero: checkHero)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+                
+            } else {
+                return UITableViewCell()
+            }
+        } else if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "AttackTypeCell", for: indexPath) as? AttackTypeTableViewCell else {
+                    return UITableViewCell()
+                }
+                if let checkHero = getHero {
+                    cell.addValue(hero: checkHero)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+                
+            } else {
+                return UITableViewCell()
+            }
+        } else if indexPath.section == 3 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as? HeroStatTableViewCell else {
+                return UITableViewCell()
+            }
+            if indexPath.row == 0 {
+                if let checkHero = getHero {
+                    cell.setStat(hero: checkHero, stat: .B_HP)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+            } else if indexPath.row == 1 {
+                if let checkHero = getHero {
+                    cell.setStat(hero: checkHero, stat: .B_MP)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+            } else if indexPath.row == 2 {
+                if let checkHero = getHero {
+                    cell.setStat(hero: checkHero, stat: .B_Deff)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+            } else if indexPath.row == 3 {
+                if let checkHero = getHero {
+                    cell.setStat(hero: checkHero, stat: .B_Attk)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+            } else {
+                return UITableViewCell()
+            }
+            
+        } else if indexPath.section == 4 {
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as? HeroStatTableViewCell else {
+                    return UITableViewCell()
+                }
+                if let checkHero = getHero {
+                    cell.setStat(hero: checkHero, stat: .B_Spd)
+                    return cell
+                } else {
+                    return UITableViewCell()
+                }
+            } else {
+                return UITableViewCell()
+            }
+        } else if indexPath.section == 5 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "HeroTypeCell", for: indexPath) as? SortTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            if let value = getHero?.roles[indexPath.row] {
+                cell.setValue(plain: value)
+            } else {
+                return UITableViewCell()
+            }
+            
+            return cell
         } else {
             return UITableViewCell()
         }
@@ -141,6 +247,58 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             return 250
+        } else {
+            return 50
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+
+        if section == 0 {
+            return 30
+        } else if section == 1 {
+            return 30
+        } else if section == 2 {
+            return 30
+        } else if section == 3 {
+            return 30
+        } else if section == 4 {
+            return 30
+        } else if section == 5 {
+            return 30
+        } else {
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 5 {
+            if getHero?.roles.count == 0 {
+                return nil
+            } else {
+                let emptyView = UIView()
+                emptyView.backgroundColor = .gray
+                return emptyView
+            }
+        } else {
+            let emptyView = UIView()
+            emptyView.backgroundColor = .gray
+            return emptyView
+        }
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let emptyView = UIView()
+            emptyView.backgroundColor = .gray
+            return emptyView
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 30
         } else {
             return 0
         }
