@@ -30,7 +30,7 @@ extension ListHeroStatViewModel {
     private func doSorting(data: [Hero], base: Sort) -> [Hero] {
         switch base {
         case .None:
-            return []
+            return originalData
         case .B_Attk:
             return data.sorted(by: { $0.base_attack_min < $1.base_attack_min })
         case .B_HP:
@@ -65,18 +65,19 @@ extension ListHeroStatViewModel: ListHeroStatVMGuideline {
             self.result = originalData
             self.result = doFilter(data: result, base: currenFilter)
         case .B_Attk:
-            self.result = doFilter(data: originalData, base: currenFilter)
             self.result = doSorting(data: self.result, base: .B_Attk)
+            
         case .B_HP:
-            self.result = doFilter(data: originalData, base: currenFilter)
             self.result = doSorting(data: self.result, base: .B_HP)
+            
         case .B_MP:
-            self.result = doFilter(data: originalData, base: currenFilter)
             self.result = doSorting(data: self.result, base: .B_MP)
+            
         case .B_Spd:
-            self.result = doFilter(data: originalData, base: currenFilter)
             self.result = doSorting(data: self.result, base: .B_Spd)
+            
         }
+        
         self.sortHero?(result)
     }
     
@@ -93,14 +94,6 @@ extension ListHeroStatViewModel: ListHeroStatVMGuideline {
                 
             case .failed(let error):
                 errorMessage = error
-//                if time > 0 {
-//                    self?.loadHero(retry: time - 1)
-//                    group.leave()
-//                    return
-//                } else {
-//                    self?.fetchError?(error)
-//                    group.leave()
-//                }
                 
             }
             group.leave()
